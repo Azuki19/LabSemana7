@@ -1,18 +1,20 @@
 import styles from './Character.css';
 
 export enum Attribute {
-	'image' = 'image',
-	'name' = 'name',
-	'status' = 'status',
-	'species' = 'species',
-	'type' = 'type',
-	'origin' = 'origin',
+	'name' = `name`,
+	'uid' = `uid`,
+	'image' = `image`,
+	'status' = `status`,
+	'species' = `species`,
+	'type' = `type`,
+	'origin' = `origin`,
 	'episode' = 'episode',
 }
 
-class myCharacters extends HTMLElement {
-	image?: string;
+class character extends HTMLElement {
 	name?: string;
+	uid?: number;
+	image?: string;
 	status?: string;
 	species?: string;
 	type?: string;
@@ -26,8 +28,9 @@ class myCharacters extends HTMLElement {
 
 	static get observedAttributes() {
 		const attrs: Record<Attribute, null> = {
-			image: null,
 			name: null,
+			uid: null,
+			image: null,
 			status: null,
 			species: null,
 			type: null,
@@ -36,30 +39,44 @@ class myCharacters extends HTMLElement {
 		};
 		return Object.keys(attrs);
 	}
-	connectedCallback() {
+
+	attributeChangedCallback(propName: Attribute, oldValue: string | undefined, newValue: string = '') {
+		switch (propName) {
+			case Attribute.uid:
+				this.uid = newValue ? Number(newValue) : undefined;
+				break;
+
+			default:
+				this[propName] = newValue;
+				break;
+		}
+
 		this.render();
 	}
 
-	attributeChangedCallback(propName: Attribute, oldValue: string | undefined, newValue: string | undefined) {
-		this[propName] = newValue;
+	connectedCallback() {
 		this.render();
 	}
 
 	render() {
 		if (this.shadowRoot) {
 			this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="./src/components/Character/Character.css">
-            <section class="container">
-            <img src="${this.image}"></img>
-            <h1>${this.name}</h1>
-						<div class='info-container'>
-            <p><b>Status: </b>${this.status}</p>
-            <p><b>Species:</b> ${this.species}</p>
-            <p><b>Type: </b> ${this.type ? this.type : 'Normal'}</p>
-            <p><b>Origin:</b> ${this.origin}</p>
-            <p><b>Episodes:</b>  ${this.episode}</p>
-						</div>
-            </section>`;
+			<link rel="stylesheet" href="./src/components/Character/Character.css">
+   <section class='container'>
+
+   <img src="${this.image}" ><img>
+	 <h1><b> Name: </b>${this.name}</h1>
+
+	 <div class='info-container '>
+   <p><b> Id: </b>${this.uid}</p>
+	 <p><b> Status: </b>${this.status}</p>
+   <p><b> Species: </b>${this.species}</p>
+   <p><b> Type: </b>${this.type}</p>
+   <p><b> Origin: </b>${this.origin}</p>
+	 <p><b> First Episode: </b>${this.episode}</p>
+	 </div>
+   </section>
+   `;
 		}
 		const cssProfile = this.ownerDocument.createElement('style');
 		cssProfile.innerHTML = styles;
@@ -67,5 +84,5 @@ class myCharacters extends HTMLElement {
 	}
 }
 
-export default myCharacters;
-customElements.define('my-characters', myCharacters);
+export default character;
+customElements.define('my-character', character);

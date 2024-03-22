@@ -1,24 +1,13 @@
-interface character {
-	image: string;
-	name: string;
-	status: string;
-	species: string;
-	type: string;
-	origin: {
-		name: string;
-	};
-	episode: string;
-}
-
-async function getCharacters(limit: number) {
+export const getRickandMorty = async (id: number) => {
 	try {
-		const getData = await fetch('https://rickandmortyapi.com/api/character').then((res) => res.json());
-
-		const resultsCharacters: character[] = getData.results.slice(0, limit);
-		return resultsCharacters;
+		// await "espera" hasta que no se resuelva el va a esperar para retornar
+		const getDataRickandMorty = await fetch('https://rickandmortyapi.com/api/character/' + id).then((result) =>
+			result.json()
+		);
+		return getDataRickandMorty;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 	}
-}
+};
 
-export default getCharacters;
+export default getRickandMorty;
