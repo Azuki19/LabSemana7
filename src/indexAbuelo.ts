@@ -10,7 +10,7 @@ class AppContainer extends HTMLElement {
 	}
 	async connectedCallback() {
 		try {
-			const Data = await getCharacters(10);
+			const Data = await getCharacters(20);
 			const arrayCharacters = Data;
 			arrayCharacters?.forEach((character) => {
 				const characterCard = this.ownerDocument.createElement('my-characters') as myCharacters;
@@ -36,7 +36,7 @@ class AppContainer extends HTMLElement {
 
 	render() {
 		if (this.shadowRoot) {
-			this.shadowRoot.innerHTML = '<input class="input-numero" type="number"/>';
+			this.shadowRoot.innerHTML = '<input class="input" type="number"/>';
 
 			// Agregar los nuevos elementos utilizando appendChild
 			this.characters.slice(0, this.number).forEach((characterElement) => {
