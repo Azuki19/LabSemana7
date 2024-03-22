@@ -1,0 +1,18 @@
+.container {
+	background-color: rgb(255, 0, 255);
+	width: 500px;
+	padding: 10px;
+	font-weight: 400;
+	font-style: normal;
+	border-radius: 10px;
+	margin: 25px;
+}
+
+.info-container {
+	width: 100%;
+}
+
+.info-container p {
+	max-width: 100%;
+	overflow-wrap: break-word;
+}

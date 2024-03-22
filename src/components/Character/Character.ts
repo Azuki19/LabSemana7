@@ -1,3 +1,5 @@
+import styles from './Character.css';
+
 export enum Attribute {
 	'image' = 'image',
 	'name' = 'name',
@@ -34,7 +36,6 @@ class myCharacters extends HTMLElement {
 		};
 		return Object.keys(attrs);
 	}
-
 	connectedCallback() {
 		this.render();
 	}
@@ -47,18 +48,22 @@ class myCharacters extends HTMLElement {
 	render() {
 		if (this.shadowRoot) {
 			this.shadowRoot.innerHTML = `
-					<link rel="stylesheet" href="../src/components/character/character.css">
-					<section id="container">
-					<img src="${this.image}"></img>
-					<h1>${this.name}</h1>
-					<p>Status: ${this.status}</p>
-					<p>Species: ${this.species}</p>
-					<p>Type:  ${this.type ? this.type : 'Normal'}</p>
-					<p>Origin: ${this.origin}</p>
-					<p>Name of first episode: ${this.episode}</p>
-					</section>
-					`;
+            <link rel="stylesheet" href="./src/components/Character/Character.css">
+            <section class="container">
+            <img src="${this.image}"></img>
+            <h1>${this.name}</h1>
+						<div class='info-container'>
+            <p><b>Status: </b>${this.status}</p>
+            <p><b>Species:</b> ${this.species}</p>
+            <p><b>Type: </b> ${this.type ? this.type : 'Normal'}</p>
+            <p><b>Origin:</b> ${this.origin}</p>
+            <p><b>Episodes:</b>  ${this.episode}</p>
+						</div>
+            </section>`;
 		}
+		const cssProfile = this.ownerDocument.createElement('style');
+		cssProfile.innerHTML = styles;
+		this.shadowRoot?.appendChild(cssProfile);
 	}
 }
 
